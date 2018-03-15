@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Quality</title>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/todo.css">
+</head>
+<style>
+    .quality_container {
+        width: 500px;
+        height: 500px;
+        background-color: burlywood;
+    }
+    .quality_container .quality_header {
+        height: 100px;
+        line-height: 100px;
+        background-color: blanchedalmond;
+    }
+    .quality_container .quality_footer {
+        position: relative;
+        height: 400px;
+    }
+    .quality_container .quality_zhezhao{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 500px;
+        height: 0px;
+        background-color: #cccccc;
+        overflow: hidden;
+        text-align: center;
+    }
+    .quality_container .quality_heart{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: brown;
+        cursor: pointer;
+        margin: 0 10px;
+    }
+</style>
+<body ng-app="myApp">
+
+<quality title="yinxs" content="遮罩层内容">
+</quality>
+<quality title="yinxs" content="遮罩层内容">
+</quality>
+<quality title="yinxs" content="遮罩层内容">
+</quality>
+<quality title="yinxs" content="遮罩层内容">
+</quality>
+
+
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.js"></script>
+<script src="https://code.angularjs.org/1.1.0/angular.js"></script>
+<script>
+    var app = angular.module("myApp", []);
+    app.directive('quality', function(){
+        return{
+            restrict:'E',
+            scope:{
+                toDir:'=',
+                fromName:'@',
+                sendEmail:'&'
+            },
+            link:function(scope, element, attrs) {
+                scope.title = attrs.title;
+                scope.content = attrs.content;
+                scope.heart = 121;
+                scope.leave = function(){
+                    $("#quality_zz").animate({height:"0px"});
+                };
+                scope.enter = function () {
+                    $("#quality_zz").animate({height:"300px"});
+                };
+                scope.addHeart = function () {
+                    scope.heart++;
+                };
+            },
+            template:'<div class="quality_container" ng-mouseleave="leave()" ng-mouseenter="enter()">' +
+            '<div class="quality_header"><span>{{title}}</span><span ng-click="addHeart()" class="quality_heart"></span><span>{{heart}}</span></div>' + '<div class="quality_footer"><div class="quality_content"></div><div class="quality_zhezhao" id="quality_zz"><span>{{content}}</span></div></div>' +
+            '</div>',
+            replace:true,
+        };
+    });
+</script>
+</html>
